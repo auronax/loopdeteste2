@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:head>
+
+
+	</h:head>
+	<h:form>
+
+
+		<p:menubar>
+
+			<p:submenu label="Cadastros">
+				<p:menuitem value="Produtos" outcome="/pages/CadastroProdutos.xhtml" />
+				<p:menuitem value="Clientes" outcome="/pages/ListaClientes.xhtml" />
+			</p:submenu>
+
+			<p:menuitem value="Agenda" onclick="PF('dlgAgenda').show();" />
+
+			<p:submenu label="Catálogo">
+				<p:menuitem value="Blusas" url="#" />
+				<p:menuitem value="Calças" url="#" />
+				<p:menuitem value="Saias" url="#" />
+				<p:menuitem value="Shorts" url="#" />
+			</p:submenu>
+
+			<p:menuitem value="Chat" url="#" />
+			<p:menuitem value="Cadastre-se" icon="ui-icon-heart" onclick="PF('dlgCadastro').show();" />
+
+			<p:menuitem value="Entre" icon="ui-icon-heart"
+				onclick="PF('dlg').show();" />
+
+		</p:menubar>
+
+
+
+
+		<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+		<p:dialog header="Login" widgetVar="dlg" resizable="false">
+
+			<h:panelGrid columns="2" cellpadding="5">
+
+				<h:outputLabel for="username" value="Usuário:" />
+				<p:inputText id="username" value="#{LoginBean.email}"
+					required="true" label="username" />
+
+				<h:outputLabel for="password" value="Senha:" />
+				<p:password id="password" value="#{LoginBean.senha}" required="true"
+					label="password" />
+
+				<f:facet name="footer">
+
+					<p:commandButton value="Acessar" update="growl"
+						actionListener="#{LoginBean.login}"
+						oncomplete="handleLoginRequest(xhr, status, args)" />
+						
+				</f:facet>
+
+			</h:panelGrid>
+
+		</p:dialog>
+
+		<p:dialog header="Agendar" widgetVar="dlgAgenda" focus="data">
+			<h:panelGrid columns="2" cellpadding="5">
+
+
+				<p:outputLabel for="data" value="Data:" />
+				<p:calendar id="data" value="#{calendarView.date3}" showOn="button" />
+
+				<h:outputLabel id="horario" value="Horário:" />
+				<p:calendar pattern="HH:mm" timeOnly="true" />
+
+				<h:outputLabel for="endereco" value="Endereço:" />
+				<p:inputText id="endereco" label="endereco" />
+
+			</h:panelGrid>
+
+
+			<f:facet name="footer">
+
+				<p:commandButton value="Agendar" update="growl"
+					actionListener="#{AgendaBean.login}" />
+
+			</f:facet>
+
+		</p:dialog>
+
+	</h:form>
+	<h:form>
+
+ 
+    <p:dialog header="Cadastro" widgetVar="dlgCadastro" focus="sexo">
+    
+        <h:panelGrid columns="2" cellpadding="5">
+        
+            <h:outputLabel for="nome" value="Nome completo:" />
+            <p:inputText id="nome" label="nome"  />
+ 
+            <h:outputLabel for="cpf" value="CPF:" />
+            <p:inputMask id="cpf" value="#{maskView.ssn}" mask="999.999.999-99"/>
+ 
+ 
+    
+				<p:outputLabel for="sexo" value="Sexo:" />
+        <p:selectOneRadio id="sexo" value="sexo">
+            <f:selectItem itemLabel="Feminino" itemValue="feminino" />
+            <f:selectItem itemLabel="Masculino" itemValue="masculino" />
+            <f:selectItem itemLabel="Outro" itemValue="outro" />
+        </p:selectOneRadio>
+        
+        <h:outputLabel for="datanascimento" value="Data de Nascimento:" />
+            <p:inputMask id="datanascimento" value="#{maskView.date}" mask="99/99/9999"/>
+ 
+            
+            <h:outputLabel for="email" value="E-mail:" />
+            <p:inputText id="email" label="email" />
+            
+            <h:outputLabel for="endereco" value="Endereço:" />
+            <p:inputText id="endereco" label="endereco" />
+            
+            <h:outputLabel for="cep" value="CEP:" />
+            <p:inputMask id="cep" value="#{maskView.ssn}" mask="99-999-999"/>
+ 
+            
+            <h:outputLabel for="cidade" value="Cidade:" />
+            <p:inputText id="cidade" label="cidade" />
+            
+            <h:outputLabel for="estado" value="Estado: *" />
+            <h:selectOneMenu id="estado" value="estado" required="true" label="estado">
+                <f:selectItem itemLabel="Selecione o Estado" itemValue="" noSelectionOption="true" />
+                <f:selectItem itemLabel="DF" itemValue="1" />
+                <f:selectItem itemLabel="GO" itemValue="2" />
+            </h:selectOneMenu>
+            
+            <h:outputLabel for="bairro" value="Bairro:" />
+            <p:inputText id="bairro" label="bairro" />
+            
+            <h:outputLabel for="telefone" value="Telefone:" />
+          <p:inputMask id="telefone" value="#{maskView.phone}" mask="(999) 99999-9999"/>
+ 
+            
+            <h:outputLabel for="celular" value="Celular:" />
+            <p:inputMask id="celular" value="#{maskView.phone}" mask="(999) 99999-9999"/>
+ 
+            
+            <h:outputText value="Senha: " />
+        <p:password id="senha" value="#{passwordView.password2}" feedback="true" />
+        </h:panelGrid>
+        
+        <f:facet name="footer">
+
+				<p:commandButton value="Cadastrar" actionListener="#{MBClientes.novo}"
+						oncomplete="PF('dlgCadastro').hide();"  />
+
+			</f:facet>
+        
+        
+    </p:dialog>
+ 
+</h:form>
+
+	
+
+
+
+
+
+</ui:composition>
